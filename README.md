@@ -16,22 +16,21 @@ Catch suspicious payments in **< 200 ms** on your laptop, then scale the sam
 
 > **SLA** 99‑th percentile end‑to‑end latency ≤ 200 ms @ 1 M ev/s (load‑test section)
 
----
-
 ##  Architecture
 
 ```mermaid
 graph TD
-  A[Kafka Topic:<br/>payments.raw] -->|FlinkKafkaConsumer| B(Flink Job<br/>Fraud CEP)
-  B --> C{Broadcast State<br/>Rules}
-  C -->|Pattern Match| D[DynamoDB<br/>fraud_alerts]
-  D -->|Streams| E[EventBridge/Lambda]
-  E -->|Notify| F[Slack / Email]
-  B --> G((Checkpoints → S3))
-  B --> H[Side‑output ➜ S3 parquet<br/>(model training)]
+  A["Kafka Topic: payments.raw"] -->|FlinkKafkaConsumer| B["Flink Job: Fraud CEP"]
+  B --> C{Broadcast State Rules}
+  C -->|Pattern Match| D["DynamoDB fraud_alerts"]
+  D -->|Streams| E["EventBridge / Lambda"]
+  E -->|Notify| F["Slack / Email"]
+  B --> G(("Checkpoints to S3"))
+  B --> H["S3 Parquet (model training)"]
 ```
 
 ---
+
 
 ##  Quick Start (Local)
 
