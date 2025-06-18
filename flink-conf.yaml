@@ -1,0 +1,33 @@
+appender.console.type: CONSOLE
+appender.rolling.name: RollingFileAppender
+blob.server.port: 6124
+appender.console.layout.pattern: %d{HH:mm:ss,SSS} %-5p %-60c %x - %m%n
+jobmanager.rpc.address: jobmanager
+state.savepoints.dir: file:///opt/flink/savepoints
+query.server.port: 6125
+appender.rolling.fileName: ${sys:log.file}
+appender.rolling.type: RollingFile
+taskmanager.numberOfTaskSlots: 4
+appender.rolling.strategy.max: 10
+appender.rolling.policies.type: Policies
+appender.rolling.policies.size.type: SizeBasedTriggeringPolicy
+taskmanager.memory.process.size: 1728m
+appender.rolling.layout.pattern: %d{HH:mm:ss,SSS} %-5p %-60c %x - %m%n
+appender.rolling.append: false
+appender.rolling.policies.size.size: 100MB
+restart-strategy.fixed-delay.attempts: 3
+appender.rolling.layout.type: PatternLayout
+jobmanager.memory.process.size: 1600m
+jobmanager.rpc.port: 6123
+appender.rolling.filePattern: ${sys:log.file}.%i
+rootLogger.level: INFO
+appender.rolling.strategy.type: DefaultRolloverStrategy
+restart-strategy.fixed-delay.delay: 10s
+taskmanager.memory.managed.size: 128m
+rootLogger.appenderRef.rolling.ref: RollingFileAppender
+state.backend: filesystem
+restart-strategy: fixed-delay
+appender.console.name: ConsoleAppender
+appender.console.layout.type: PatternLayout
+rootLogger.appenderRef.console.ref: ConsoleAppender
+state.checkpoints.dir: file:///opt/flink/checkpoints

@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '8.1.1' // makes a fat-jar
+}
+
+group   = 'com.fraud'
+version = '0.1.0'
+
+sourceCompatibility = '11'
+targetCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    flinkVersion = '1.20.0'
+}
+
+dependencies {
+    implementation "org.apache.flink:flink-streaming-java:${flinkVersion}"
+    implementation "org.apache.flink:flink-cep:${flinkVersion}"
+    implementation 'org.apache.kafka:kafka-clients:3.7.0'
+    implementation 'software.amazon.awssdk:dynamodb:2.25.16'
+    testImplementation "org.apache.flink:flink-test-utils-junit:${flinkVersion}"
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+}
+
+application {
+    mainClass = 'com.fraud.FraudCEP'
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
+
+// Shadow plugin configuration for fat JAR
+shadowJar {
+    archiveBaseName.set('fraud-detection')
+    archiveClassifier.set('')
+    archiveVersion.set(project.version.toString())
+    
+    // Exclude signature files to avoid conflicts
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
+    exclude 'META-INF/*.SF'
+    
+    // Merge service files
+    mergeServiceFiles()
+}
